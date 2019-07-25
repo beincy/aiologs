@@ -48,14 +48,6 @@ async def main():
     await log.error("m1","c1","c2",{"abc":1},{"bcd":1},"f1","f2")
     await log.debug("m1","c1","c2",{"abc":1},{"bcd":1},"f1","f2")
 
-def ssss():
-    # await asyncio.wait_for(t1("傻吊",0.5),timeout=None)
-    # asyncio.run(t1("傻吊",0.5))
-    pass
-    
-# class awe():
-#     async def __del__(self):
-#         await t1("吃屎",0.1)
 
 if __name__ == "__main__":
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
