@@ -8,8 +8,8 @@ async def addlogs(data=[]):
         return
     dataBaseName = 'aiologs'
     collectName = f'{LoggerConfig.projectName}_{LoggerConfig.env}'
-    assert len(LoggerConfig.targetDB)>0
-    config=LoggerConfig.targetDB[0]
+    assert len(LoggerConfig.targetDB) > 0
+    config = LoggerConfig.targetDB[0]
     client = motor.motor_asyncio.AsyncIOMotorClient(config)
     db = client[dataBaseName]
     collection = db[collectName]
