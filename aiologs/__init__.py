@@ -211,7 +211,7 @@ class Logger():
             "filter1": filter1,
             "filter2": filter2,
             "ip":LoggerConfig.ip,
-            "peoject":LoggerConfig.projectName,
+            "project":LoggerConfig.projectName,
             "env":LoggerConfig.env,
         })
         
@@ -221,7 +221,7 @@ class Logger():
         logStr = f'{logStr}<module>{module}</module><category>{category}</category><sub_category>{sub_category}</sub_category><msg>{msg}</msg><extra>{extra}</extra>'
         logStr = f'{logStr}<msg>{ujson.dumps(msg)}</msg><extra>{ujson.dumps(extra)}</extra>'
         logStr = f'{logStr}<filter1>{filter2}</filter1><filter2>{filter2}</filter2>'
-        logStr = f'{logStr}<ip>{LoggerConfig.ip}</ip><peoject>{LoggerConfig.projectName}</peoject><env>{LoggerConfig.env}</env>'
+        logStr = f'{logStr}<ip>{LoggerConfig.ip}</ip><project>{LoggerConfig.projectName}</project><env>{LoggerConfig.env}</env>'
         return logStr
 
     def _jsonSerialize(self, module='', category='', sub_category='', msg=None, extra=None, filter1="", filter2="", logLevel=LogLevel.INFO):
@@ -236,7 +236,7 @@ class Logger():
             "filter1": filter1,
             "filter2": filter2,
             "ip":LoggerConfig.ip,
-            "peoject":LoggerConfig.projectName,
+            "project":LoggerConfig.projectName,
             "env":LoggerConfig.env,
         }
         return ujson.dumps(logDic)
