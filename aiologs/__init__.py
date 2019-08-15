@@ -2,11 +2,11 @@ import aiofiles
 import datetime
 import os
 import socket
-import uvloop
 import asyncio
 from enum import Enum
 import ujson
 from threading import Thread
+
 
 class LoggerConfig():
     """
@@ -29,7 +29,7 @@ class LoggerConfig():
     dbtype = 0
     targetDB = []
     env = "develop"
-    ip="127.0.0.1"
+    ip = "127.0.0.1"
 
     @staticmethod
     def addConfig(config):
@@ -52,14 +52,15 @@ class LoggerConfig():
         if "env" in config:
             LoggerConfig.env = config["env"]
         #获取本机IP
-        ip="127.0.0.1"
+        ip = "127.0.0.1"
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             s.connect(('8.8.8.8', 80))
             ip = s.getsockname()[0]
         finally:
             s.close()
-        LoggerConfig.ip=ip
+        LoggerConfig.ip = ip
+
 
 class LogLevel(Enum):
     """
@@ -85,13 +86,11 @@ class LogLevel(Enum):
             return "INFO"
 
 
-
 class Logger():
     """
     初始化log服务
     """
-
-    def __init__(self,isJsonSerialize=1):
+    def __init__(self, isJsonSerialize=1):
         """
         projectName:项目名称，用于区分文件夹
         isJsonSerialize：是否进行json序列化，默认是标签模式
@@ -104,10 +103,17 @@ class Logger():
         targetDB：数据库库链接 {host:"",port:""}
         """
         self.isJsonSerialize = isJsonSerialize
-        self.tasks=[]
-        self.datas=[]
+        self.tasks = []
+        self.datas = []
 
-    async def info(self, module='', category='', sub_category='', msg=None, extra=None, filter1="", filter2=""):
+    async def info(self,
+                   module='',
+                   category='',
+                   sub_category='',
+                   msg=None,
+                   extra=None,
+                   filter1="",
+                   filter2=""):
         """
         记录日志
         module:模块 用于区分日志的模块
@@ -118,10 +124,23 @@ class Logger():
         filter1: 过滤条件1
         filter2: 过滤条件2
         """
-        await self.log(module=module, category=category, sub_category=sub_category, msg=msg,
-                 extra=extra, filter1=filter1, filter2=filter2, logLevel=LogLevel.INFO)
+        await self.log(module=module,
+                       category=category,
+                       sub_category=sub_category,
+                       msg=msg,
+                       extra=extra,
+                       filter1=filter1,
+                       filter2=filter2,
+                       logLevel=LogLevel.INFO)
 
-    async def warning(self, module='', category='', sub_category='', msg=None, extra=None, filter1="", filter2=""):
+    async def warning(self,
+                      module='',
+                      category='',
+                      sub_category='',
+                      msg=None,
+                      extra=None,
+                      filter1="",
+                      filter2=""):
         """
         记录日志
         module:模块 用于区分日志的模块
@@ -132,10 +151,23 @@ class Logger():
         filter1: 过滤条件1
         filter2: 过滤条件2
         """
-        await self.log(module=module, category=category, sub_category=sub_category, msg=msg, extra=extra,
-                 filter1=filter1, filter2=filter2, logLevel=LogLevel.WARNING)
+        await self.log(module=module,
+                       category=category,
+                       sub_category=sub_category,
+                       msg=msg,
+                       extra=extra,
+                       filter1=filter1,
+                       filter2=filter2,
+                       logLevel=LogLevel.WARNING)
 
-    async def error(self, module='', category='', sub_category='', msg=None, extra=None, filter1="", filter2=""):
+    async def error(self,
+                    module='',
+                    category='',
+                    sub_category='',
+                    msg=None,
+                    extra=None,
+                    filter1="",
+                    filter2=""):
         """
         记录日志
         module:模块 用于区分日志的模块
@@ -146,10 +178,23 @@ class Logger():
         filter1: 过滤条件1
         filter2: 过滤条件2
         """
-        await self.log(module=module, category=category, sub_category=sub_category, msg=msg,
-                 extra=extra, filter1=filter1, filter2=filter2, logLevel=LogLevel.ERROR)
+        await self.log(module=module,
+                       category=category,
+                       sub_category=sub_category,
+                       msg=msg,
+                       extra=extra,
+                       filter1=filter1,
+                       filter2=filter2,
+                       logLevel=LogLevel.ERROR)
 
-    async def critical(self, module='', category='', sub_category='', msg=None, extra=None, filter1="", filter2=""):
+    async def critical(self,
+                       module='',
+                       category='',
+                       sub_category='',
+                       msg=None,
+                       extra=None,
+                       filter1="",
+                       filter2=""):
         """
         记录日志
         module:模块 用于区分日志的模块
@@ -160,10 +205,23 @@ class Logger():
         filter1: 过滤条件1
         filter2: 过滤条件2
         """
-        await self.log(module=module, category=category, sub_category=sub_category, msg=msg, extra=extra,
-                 filter1=filter1, filter2=filter2, logLevel=LogLevel.CRITICAL)
+        await self.log(module=module,
+                       category=category,
+                       sub_category=sub_category,
+                       msg=msg,
+                       extra=extra,
+                       filter1=filter1,
+                       filter2=filter2,
+                       logLevel=LogLevel.CRITICAL)
 
-    async def debug(self, module='', category='', sub_category='', msg=None, extra=None, filter1="", filter2=""):
+    async def debug(self,
+                    module='',
+                    category='',
+                    sub_category='',
+                    msg=None,
+                    extra=None,
+                    filter1="",
+                    filter2=""):
         """
         记录日志
         module:模块 用于区分日志的模块
@@ -174,10 +232,25 @@ class Logger():
         filter1: 过滤条件1
         filter2: 过滤条件2
         """
-        await self.log(module=module, category=category, sub_category=sub_category, msg=msg,
-                 extra=extra, filter1=filter1, filter2=filter2, logLevel=LogLevel.DEBUG)
+        await self.log(module=module,
+                       category=category,
+                       sub_category=sub_category,
+                       msg=msg,
+                       extra=extra,
+                       filter1=filter1,
+                       filter2=filter2,
+                       logLevel=LogLevel.DEBUG)
 
-    async def log(self, module='', category='', sub_category='', msg=None, extra=None, filter1="", filter2="", logLevel=LogLevel.INFO, serializeEncoder=None):
+    async def log(self,
+                  module='',
+                  category='',
+                  sub_category='',
+                  msg=None,
+                  extra=None,
+                  filter1="",
+                  filter2="",
+                  logLevel=LogLevel.INFO,
+                  serializeEncoder=None):
         """
         记录日志
         module:模块 用于区分日志的模块
@@ -192,31 +265,41 @@ class Logger():
         """
 
         if serializeEncoder is not None:
-            self.tasks.append(serializeEncoder(
-                module, category, sub_category, msg, extra,filter1,filter2, logLevel))
+            self.tasks.append(
+                serializeEncoder(module, category, sub_category, msg, extra,
+                                 filter1, filter2, logLevel))
         elif self.isJsonSerialize == 1:
-            self.tasks.append(self._jsonSerialize(
-                module, category, sub_category, msg, extra, filter1,filter2,logLevel))
+            self.tasks.append(
+                self._jsonSerialize(module, category, sub_category, msg, extra,
+                                    filter1, filter2, logLevel))
         else:
-            self.tasks.append(self._serialize(
-                module, category, sub_category, msg, extra, filter1,filter2,logLevel))
+            self.tasks.append(
+                self._serialize(module, category, sub_category, msg, extra,
+                                filter1, filter2, logLevel))
         self.datas.append({
             "addtime": datetime.datetime.now(),
             "logLevel": LogLevel.getEnumName(logLevel),
             "module": module,
             "category": category,
             "sub_category": sub_category,
-            "msg":msg,
+            "msg": msg,
             "extra": extra,
             "filter1": filter1,
             "filter2": filter2,
-            "ip":LoggerConfig.ip,
-            "project":LoggerConfig.projectName,
-            "env":LoggerConfig.env,
+            "ip": LoggerConfig.ip,
+            "project": LoggerConfig.projectName,
+            "env": LoggerConfig.env,
         })
-        
 
-    def _serialize(self, module='', category='', sub_category='', msg=None, extra=None, filter1="", filter2="", logLevel=LogLevel.INFO):
+    def _serialize(self,
+                   module='',
+                   category='',
+                   sub_category='',
+                   msg=None,
+                   extra=None,
+                   filter1="",
+                   filter2="",
+                   logLevel=LogLevel.INFO):
         logStr = f'<addtime>{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</addtime><logLevel>{LogLevel.getEnumName(logLevel)}</logLevel>'
         logStr = f'{logStr}<module>{module}</module><category>{category}</category><sub_category>{sub_category}</sub_category><msg>{msg}</msg><extra>{extra}</extra>'
         logStr = f'{logStr}<msg>{ujson.dumps(msg)}</msg><extra>{ujson.dumps(extra)}</extra>'
@@ -224,7 +307,15 @@ class Logger():
         logStr = f'{logStr}<ip>{LoggerConfig.ip}</ip><project>{LoggerConfig.projectName}</project><env>{LoggerConfig.env}</env>'
         return logStr
 
-    def _jsonSerialize(self, module='', category='', sub_category='', msg=None, extra=None, filter1="", filter2="", logLevel=LogLevel.INFO):
+    def _jsonSerialize(self,
+                       module='',
+                       category='',
+                       sub_category='',
+                       msg=None,
+                       extra=None,
+                       filter1="",
+                       filter2="",
+                       logLevel=LogLevel.INFO):
         logDic = {
             "addtime": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "logLevel": LogLevel.getEnumName(logLevel),
@@ -235,22 +326,24 @@ class Logger():
             "extra": ujson.dumps(extra),
             "filter1": filter1,
             "filter2": filter2,
-            "ip":LoggerConfig.ip,
-            "project":LoggerConfig.projectName,
-            "env":LoggerConfig.env,
+            "ip": LoggerConfig.ip,
+            "project": LoggerConfig.projectName,
+            "env": LoggerConfig.env,
         }
         return ujson.dumps(logDic)
 
     def __del__(self):
-        run_loop_thread = Thread(target=addFileByThread, args=(self.tasks,self.datas)) # 将次事件循环运行在一个线程中，防止阻塞当前主线程
-        run_loop_thread.start() # 运行线程，同时协程事件循环也会运行
+        run_loop_thread = Thread(target=addFileByThread,
+                                 args=(self.tasks,
+                                       self.datas))  # 将次事件循环运行在一个线程中，防止阻塞当前主线程
+        run_loop_thread.start()  # 运行线程，同时协程事件循环也会运行
 
 
 async def addFile(tasks, datas):
     if tasks:
         if LoggerConfig.ifFile == 1:
             assert os.path.exists(LoggerConfig.path)
-            rootPath = LoggerConfig.path+"/"+LoggerConfig.projectName
+            rootPath = LoggerConfig.path + "/" + LoggerConfig.projectName
             if not os.path.exists(rootPath):
                 os.makedirs(rootPath)
             fileNameTemp = LoggerConfig.fileName
@@ -258,30 +351,28 @@ async def addFile(tasks, datas):
                 fileNameTemp = datetime.datetime.now().strftime(
                     "%Y-%m-%d_%H-%M-%S")
             fileNameTemp = f'{fileNameTemp}_{LoggerConfig.env}'
-            async with aiofiles.open(f'{rootPath}/{fileNameTemp}.txt', 'a') as f:
+            async with aiofiles.open(f'{rootPath}/{fileNameTemp}.txt',
+                                     'a') as f:
                 for task in tasks:
-                    await f.write(task+"\n")
-        
+                    await f.write(task + "\n")
+
         if LoggerConfig.ifConsole == 1:
             for task in tasks:
                 print(task)
     if datas:
         if LoggerConfig.asyncWrite == 1:
             if LoggerConfig.dbtype == 0:
-                import  aiologs.esHandler as esHandler
+                import aiologs.esHandler as esHandler
                 await esHandler.addlogs(datas)
             else:
                 import aiologs.mongoHandler as mongoHandler
                 await mongoHandler.addlogs(datas)
 
 
-async def testsss(a,b):
-    for i in a:
-        print(i)
-    print("=========================================================")
-    for i in b:
-        print(i)
-
-def addFileByThread(tasks,data):
-    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-    asyncio.run(addFile(tasks,data))
+def addFileByThread(tasks, data):
+    try:
+        import uvloop
+        asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+    except ImportError:
+        pass
+    asyncio.run(addFile(tasks, data))

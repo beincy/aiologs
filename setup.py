@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='aiologs',
-    version='0.0.3',
+    version='0.0.4',
     description=(
         '纯异步的高性能日志组件，支持日志保存文件、mongo、elasticsearch',
         'Purely asynchronous high performance logging components，Support for writing files，mongo、elasticsearch'
