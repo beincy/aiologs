@@ -1,13 +1,14 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
     name='aiologs',
-    version='0.0.4',
+    version='0.0.5',
     description=(
-        '纯异步的高性能日志组件，支持日志保存文件、mongo、elasticsearch',
-        'Purely asynchronous high performance logging components，Support for writing files，mongo、elasticsearch'
-    ),
-    long_description=open('README.rst','rb').read(),
+    '修改支持关键信息不分词',
+    '纯异步的高性能日志组件，支持日志保存文件、mongo、elasticsearch',
+    'Purely asynchronous high performance logging components，Support for writing files，mongo、elasticsearch'
+     ),
+    long_description=open('README.rst', 'rb').read(),
     author='beincy',
     author_email='bianhui0524@sina.com',
     maintainer='卞辉(beincy)',
