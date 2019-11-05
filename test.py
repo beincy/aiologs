@@ -3,7 +3,8 @@ from aiologs import esHandler
 from aiologs import Logger
 from aiologs import LoggerConfig
 
-async def t1(tag,i):
+
+async def t1(tag, i):
     await asyncio.sleep(i)
     print(tag)
 
@@ -17,11 +18,11 @@ async def main():
 
     #     t1("a",0.1),
     #     t1("c",0.2),
-       
+
     #     t1("f",0.6),
     # )
     # tasks=[]
-    # tasks.append(asyncio.create_task(t1("d",0.9))) 
+    # tasks.append(asyncio.create_task(t1("d",0.9)))
     # tasks.append(asyncio.create_task(t1("e",0.4)))
     # tasks.append(asyncio.create_task( t1("b",0.5)))
     # tasks.append(asyncio.create_task(t1("a",0.1)))
@@ -31,21 +32,21 @@ async def main():
 
     # ssss()
     LoggerConfig.addConfig({
-        "ifFile":0,
-        "ifConsole":1,
-        "fileName":"",
-        "path":'./',
-        "projectName":"my-test",
-        "asyncWrite":1,
-        "dbtype":0,
-        "targetDB":["192.168.88.103"],
-        "env":"develop"
+        "ifFile": 0,
+        "ifConsole": 1,
+        "fileName": "",
+        "path": './',
+        "projectName": "my-test",
+        "asyncWrite": 1,
+        "dbtype": 0,
+        "targetDB": ["192.168.88.103"],
+        "env": "develop"
     })
-    log=Logger(0)
-    await log.info("m1","c1","c2",{"abc":1},{"bcd":1},"f1","f2")
-    await log.warning("m1","c1","c2",{"abc":1},{"bcd":1},"f1","f2")
-    await log.error("m1","c1","c2",{"abc":1},{"bcd":1},"f1","f2")
-    await log.debug("m1","c1","c2",{"abc":1},{"bcd":1},"f1","f2")
+    log = Logger(0)
+    await log.info("m1", "c1", "c2", {"abc": 1}, {"bcd": 1}, "f1", "f2")
+    await log.warning("m1", "c1", "c2", {"abc": 1}, {"bcd": 1}, "f1", "f2")
+    await log.error("m1", "c1", "c2", {"abc": 1}, {"bcd": 1}, "f1", "f2")
+    await log.debug("m1", "c1", "c2", {"abc": 1}, {"bcd": 1}, "f1", "f2")
 
 
 if __name__ == "__main__":
