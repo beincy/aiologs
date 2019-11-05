@@ -3,7 +3,7 @@ from aiologs import LoggerConfig
 
 
 async def addlogs(data=[]):
-    #"mongodb://ynt:ynt123456@192.168.88.103:27016/admin"
+    # "mongodb://ynt:ynt123456@192.168.88.103:27016/admin"
     if not data:
         return
     dataBaseName = 'aiologs'

@@ -51,7 +51,7 @@ class LoggerConfig():
             LoggerConfig.targetDB = config["targetDB"]
         if "env" in config:
             LoggerConfig.env = config["env"]
-        #获取本机IP
+        # 获取本机IP
         ip = "127.0.0.1"
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
