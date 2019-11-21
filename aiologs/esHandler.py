@@ -23,6 +23,9 @@ _mappingDef = {
             },
             "env": {
                 "type": "keyword"
+            },
+            "ip": {
+                "type": "keyword"
             }
         }
     }
@@ -36,7 +39,7 @@ async def addlogs(data):
     assert len(LoggerConfig.targetDB) > 0
     client = AsyncElasticsearch(hosts=LoggerConfig.targetDB)
     index = f'aiologs-{datetime.now().strftime("%Y.%m.%d")}'
-    if not await client.exists(index=index, id=0):
+    if not await client.indices.exists(index=index):
         await client.indices.create(body=_mappingDef, index=index)
     task = []
     for item in data:
