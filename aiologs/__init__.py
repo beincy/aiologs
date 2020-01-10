@@ -30,6 +30,7 @@ class LoggerConfig():
     targetDB = []
     env = "develop"
     ip = "127.0.0.1"
+    useThread = 0
 
     @staticmethod
     def addConfig(config):
@@ -51,6 +52,8 @@ class LoggerConfig():
             LoggerConfig.targetDB = config["targetDB"]
         if "env" in config:
             LoggerConfig.env = config["env"]
+        if "useThread" in config:
+            LoggerConfig.useThread = config["useThread"]
         # 获取本机IP
         ip = "127.0.0.1"
         try:
@@ -303,7 +306,7 @@ class Logger():
         logStr = f'<addtime>{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</addtime><logLevel>{LogLevel.getEnumName(logLevel)}</logLevel>'
         logStr = f'{logStr}<module>{module}</module><category>{category}</category><sub_category>{sub_category}</sub_category><msg>{msg}</msg><extra>{extra}</extra>'
         logStr = f'{logStr}<msg>{ujson.dumps(msg)}</msg><extra>{ujson.dumps(extra)}</extra>'
-        logStr = f'{logStr}<filter1>{filter2}</filter1><filter2>{filter2}</filter2>'
+        logStr = f'{logStr}<filter1>{filter1}</filter1><filter2>{filter2}</filter2>'
         logStr = f'{logStr}<ip>{LoggerConfig.ip}</ip><project>{LoggerConfig.projectName}</project><env>{LoggerConfig.env}</env>'
         return logStr
 
@@ -333,10 +336,13 @@ class Logger():
         return ujson.dumps(logDic)
 
     def __del__(self):
-        run_loop_thread = Thread(target=addFileByThread,
-                                 args=(self.tasks,
-                                       self.datas))  # 将次事件循环运行在一个线程中，防止阻塞当前主线程
-        run_loop_thread.start()  # 运行线程，同时协程事件循环也会运行
+        if LoggerConfig.useThread == 1:
+            run_loop_thread = Thread(
+                target=addFileByThread,
+                args=(self.tasks, self.datas))  # 将次事件循环运行在一个线程中，防止阻塞当前主线程
+            run_loop_thread.start()  # 运行线程，同时协程事件循环也会运行
+        else:
+            await addFile(self.tasks, self.datas)
 
 
 async def addFile(tasks, datas):
@@ -369,10 +375,10 @@ async def addFile(tasks, datas):
                 await mongoHandler.addlogs(datas)
 
 
-def addFileByThread(tasks, data):
+def addFileByThread(tasks, datas):
     try:
         import uvloop
         asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     except ImportError:
         pass
-    asyncio.run(addFile(tasks, data))
+    asyncio.run(addFile(tasks, datas))

@@ -36,17 +36,14 @@ async def main():
         "ifConsole": 1,
         "fileName": "",
         "path": './',
-        "projectName": "my-test",
+        "projectName": "my-test2",
         "asyncWrite": 1,
         "dbtype": 0,
         "targetDB": ["192.168.88.103"],
         "env": "develop"
     })
     log = Logger(0)
-    await log.info("m1", "c1", "c2", {"abc": 1}, {"bcd": 1}, "f1", "f2")
-    await log.warning("m1", "c1", "c2", {"abc": 1}, {"bcd": 1}, "f1", "f2")
-    await log.error("m1", "c1", "c2", {"abc": 1}, {"bcd": 1}, "f1", "f2")
-    await log.debug("m1", "c1", "c2", {"abc": 1}, {"bcd": 1}, "f1", "f2")
+    await log.info("m2", "c2", "c3", {"abc": 1}, {"bcd": 1}, "f1", "f2")
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='aiologs',
-    version='0.0.5',
+    version='0.0.8',
     description=(
     '修改支持关键信息不分词',
     '纯异步的高性能日志组件，支持日志保存文件、mongo、elasticsearch',
