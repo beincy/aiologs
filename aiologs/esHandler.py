@@ -1,4 +1,5 @@
 from elasticsearch_async import AsyncElasticsearch
+from elasticsearch import exceptions
 from datetime import datetime
 from aiologs import LoggerConfig
 import asyncio
@@ -40,7 +41,13 @@ async def addlogs(data):
     client = AsyncElasticsearch(hosts=LoggerConfig.targetDB)
     index = f'aiologs-{datetime.now().strftime("%Y.%m.%d")}'
     if not await client.indices.exists(index=index):
-        await client.indices.create(body=_mappingDef, index=index)
+        try:
+            await client.indices.create(body=_mappingDef, index=index)
+        except exceptions.RequestError as e:
+            if not (e.status_code == 400
+                    and e.error == "resource_already_exists_exception"):
+                raise e
+
     task = []
     for item in data:
         task.append(client.index(index=index, id=None, body=item))

@@ -36,7 +36,7 @@ async def main():
         "ifConsole": 1,
         "fileName": "",
         "path": './',
-        "projectName": "my-test4",
+        "projectName": "my-test2",
         "asyncWrite": 1,
         "dbtype": 0,
         "targetDB": ["192.168.88.103"],
