@@ -57,5 +57,5 @@ Logger().debug(module="a",category="b",sub_category="c",msg={},extra={},filter1=
 执行完毕后，可在初始化传入的path下查找日志。如果保存数据库了。
 
 1. ElasticSearch，查找aiologs*下的所有文档进行日志查询，ElasticSearch的restapi查询方法可自行搜索。或者推荐使用成套开发的webui进行展示。https://github.com/beincy/aiologs-ui
-2.mongodb ，如果使用mongdb，数据库连接工具打开，查找数据库aiologs，集合查找项目名称_环境。因为生产环境下可能产生大量的日志。目前建议还是使用ElasticSearch
+2. mongodb ，如果使用mongdb，数据库连接工具打开，查找数据库aiologs，集合查找项目名称_环境。因为生产环境下可能产生大量的日志。目前建议还是使用ElasticSearch
 
